@@ -1,0 +1,20 @@
+[package]
+name = "game-design-club-server"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-cors = "0.7.1"
+actix-rt = "2.10.0"
+actix-web = {version="^4", features=["openssl"]}
+openssl = "0.10"
+jsonwebtokens-cognito = "0.1.1"
+env_logger = "0.11.8"
+jsonwebtoken = "9"
+serde = { version = "1", features = ["derive"] }
+chrono = "0.4"
+time = "0.3.41"
+sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "postgres", "macros", "uuid", "chrono"] }
+dotenvy = "0.15.7"
+uuid = { version = "1", features = ["serde", "v4"] }
+log = "0.4.27"
