@@ -45,7 +45,6 @@ async fn hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-
     env_logger::init();
     dotenvy::dotenv().expect("Failed to read .env file");
     println!("check: {:?}", jwt::verify_jwt(&jwt::generate_JWT("some_email".to_string())));
@@ -79,15 +78,15 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(
-            Cors::default()
-                //.allowed_origin("https://your-frontend.com") // ✅ only allow your frontend
-                .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])
-                .allowed_headers(vec!["Content-Type", "Authorization"])
-                .supports_credentials() 
-                .allowed_origin("http://localhost:5173")
+                Cors::default()
+                    //.allowed_origin("https://your-frontend.com") 
+                    .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])
+                    .allowed_headers(vec!["Content-Type", "Authorization"])
+                    .supports_credentials() 
+                    .allowed_origin("http://localhost:5173")
 
-        )
-            .wrap(Logger::default()) // <-- add this
+            )
+            //.wrap(Logger::default()) // <-- add this
             .app_data(web::Data::new(pool.clone()))  // Add pool here once
             .service(hello) //get
             .service(jwt::JWT_test)

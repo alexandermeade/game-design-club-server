@@ -7,9 +7,8 @@ use uuid::Uuid;
 
 #[derive(Debug, Deserialize)]
 pub struct Claims {
-    sub: String,  // e.g., email or user ID
-    exp: usize,
-    // Add any custom claims you set
+    sub: String,  // email or user ID
+    exp: usize, //experiation
 }
 
 #[derive(Serialize)]
@@ -105,13 +104,13 @@ pub async fn signup(info: web::Json<LoginData>, pool: web::Data<PgPool>) -> Resu
         .fetch_one(pool.get_ref())
         .await
         .map_err(|e| {
-            let err_msg = format!("{}", e);    // <-- capture message first (borrow e here)
+            let err_msg = format!("{}", e);   
             eprintln!("DB query error: {:?}", err_msg);
             actix_web::error::InternalError::from_response(
-                e,  // <-- move e here
+                e, 
                 HttpResponse::InternalServerError().json(LoginResponse {
                     success: false,
-                    message: err_msg,  // <-- use captured message here
+                    message: err_msg, 
                 }),
             )
         })?;
@@ -122,7 +121,7 @@ pub async fn signup(info: web::Json<LoginData>, pool: web::Data<PgPool>) -> Resu
             message: "ExistingEmail".to_string(),
         }));
     }
-    // Generate a random (version 4) UUID
+   
     //auto generates id
     sqlx::query("INSERT INTO \"user\" (name, email, password, public_id) VALUES ($1, $2, $3, $4)")
         .bind(username)
@@ -142,12 +141,14 @@ pub async fn signup(info: web::Json<LoginData>, pool: web::Data<PgPool>) -> Resu
             }),
         )})?;
 
-    Ok(HttpResponse::Ok()
+    Ok(
+        HttpResponse::Ok()
         .cookie(cookie)
         .json(LoginResponse {
             success: true,
             message: "Signup successful".to_string(),
-        }))
+        })
+    )
 }
 
 

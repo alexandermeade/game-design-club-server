@@ -15,7 +15,7 @@ pub fn generate_JWT(user:String) -> String {
         sub: user,
         iat: now.timestamp() as usize,
         exp: (now + Duration::hours(2)).timestamp() as usize,
-        iss: "fitbunny".to_string(),
+        iss: "msu gamedesign".to_string(),
     };
 
     // Encode the token
@@ -32,9 +32,6 @@ pub fn generate_JWT(user:String) -> String {
 }
 
 
-
-
-
 #[get("/JWT")]
 pub async fn JWT_test() -> impl Responder {
     // Create token claims
@@ -43,7 +40,7 @@ pub async fn JWT_test() -> impl Responder {
         sub: "user123".to_string(),
         iat: now.timestamp() as usize,
         exp: (now + Duration::hours(2)).timestamp() as usize,
-        iss: "my-rust-app".to_string(),
+        iss: "jwt test".to_string(),
     };
 
     // Encode the token
