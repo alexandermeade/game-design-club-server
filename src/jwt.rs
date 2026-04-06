@@ -1,5 +1,14 @@
 use crate::*;
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Claims {
+    sub: String,          
+    exp: usize,           
+    iat: usize,           
+    iss: String,          
+}
+
+//move this to dot env when we are done with it !
 pub const secret:&[u8; 16] = b"super-secret-key";
 
 pub fn verify_jwt(token: &str) -> Result<TokenData<Claims>, jsonwebtoken::errors::Error> {
